@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23763B2618519F74003938F7 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 23763B2518519F74003938F7 /* main.c */; };
+		23763B2618519F74003938F7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23763B2518519F74003938F7 /* main.cpp */; };
 		23763B2818519F74003938F7 /* CS3388_Assignment4_raytracer.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23763B2718519F74003938F7 /* CS3388_Assignment4_raytracer.1 */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +26,19 @@
 
 /* Begin PBXFileReference section */
 		23763B2218519F74003938F7 /* CS3388_Assignment4-raytracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CS3388_Assignment4-raytracer"; sourceTree = BUILT_PRODUCTS_DIR; };
-		23763B2518519F74003938F7 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		23763B2518519F74003938F7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		23763B2718519F74003938F7 /* CS3388_Assignment4_raytracer.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CS3388_Assignment4_raytracer.1; sourceTree = "<group>"; };
+		23763B2F1851AC53003938F7 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
+		23763B311851B726003938F7 /* RGB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGB.h; sourceTree = "<group>"; };
+		23763B331851C33A003938F7 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		23763B351851C516003938F7 /* matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
+		23763B361851C516003938F7 /* nr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nr.h; sourceTree = "<group>"; };
+		23763B371851C6EB003938F7 /* Ray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ray.h; sourceTree = "<group>"; };
+		23763B381851C87D003938F7 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		23763B391851DDA7003938F7 /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
+		23763B3A1851E173003938F7 /* Colour.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Colour.h; sourceTree = "<group>"; };
+		23763B3B1851E4E1003938F7 /* Sphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sphere.h; sourceTree = "<group>"; };
+		23763B3C1851E59F003938F7 /* Plane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +71,19 @@
 		23763B2418519F74003938F7 /* CS3388_Assignment4-raytracer */ = {
 			isa = PBXGroup;
 			children = (
-				23763B2518519F74003938F7 /* main.c */,
+				23763B351851C516003938F7 /* matrix.h */,
+				23763B361851C516003938F7 /* nr.h */,
+				23763B2518519F74003938F7 /* main.cpp */,
 				23763B2718519F74003938F7 /* CS3388_Assignment4_raytracer.1 */,
+				23763B2F1851AC53003938F7 /* Object.h */,
+				23763B311851B726003938F7 /* RGB.h */,
+				23763B331851C33A003938F7 /* Vector.h */,
+				23763B371851C6EB003938F7 /* Ray.h */,
+				23763B381851C87D003938F7 /* Camera.h */,
+				23763B391851DDA7003938F7 /* Light.h */,
+				23763B3A1851E173003938F7 /* Colour.h */,
+				23763B3B1851E4E1003938F7 /* Sphere.h */,
+				23763B3C1851E59F003938F7 /* Plane.h */,
 			);
 			path = "CS3388_Assignment4-raytracer";
 			sourceTree = "<group>";
@@ -117,7 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23763B2618519F74003938F7 /* main.c in Sources */,
+				23763B2618519F74003938F7 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +217,18 @@
 		23763B2C18519F74003938F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INPUT_FILETYPE = automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/X11/lib,
+					/opt/X11/include,
+				);
+				OTHER_LDFLAGS = (
+					"-I/usr/X11R6/include",
+					"-L/usr/X11R6/lib",
+					"-lX11",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -202,6 +236,18 @@
 		23763B2D18519F74003938F7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INPUT_FILETYPE = automatic;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/X11/lib,
+					/opt/X11/include,
+				);
+				OTHER_LDFLAGS = (
+					"-I/usr/X11R6/include",
+					"-L/usr/X11R6/lib",
+					"-lX11",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -225,6 +271,7 @@
 				23763B2D18519F74003938F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
