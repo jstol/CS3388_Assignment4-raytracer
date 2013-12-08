@@ -39,11 +39,12 @@ int CAM_X = 1;
 int CAM_Y = 1;
 int CAM_Z  = -5;
 
-int LIGHT_X = 0;
-int LIGHT_Y = 1;
+int LIGHT_X = 3;
+int LIGHT_Y = -1;
 int LIGHT_Z = -4;
 double SPECULAR_FACTOR = 10;
-double AMBIENCE = 0.5;
+double AMBIENCE = 0.25;
+double SHADOW_FACTOR = 1;
 
 // List of all objects
 vector<Object*>* objects;
@@ -58,10 +59,10 @@ Vector origin(0,0,0);
 // Define some basic colours
 Colour white(1.0, 1.0, 1.0, 0.0);
 Colour black(0.0, 0.0, 0.0, 0.0);
-Colour reflective_green(0.0, 1.0, 0.0, 1.0);
+Colour reflective_green(0.1, 0.75, 0.0, 1.0);
 Colour reflective_red(1.0, 0.0, 0.0, 1.0);
-Colour reflective_blue(0.0, 0.0, 1.0, 1.0);
-Colour reflective_white(1.0, 1.0, 1.0, 1.0);
+Colour reflective_blue(0.0, 0.2, 0.75, 1.0);
+Colour matte_white(1.0, 1.0, 1.0, 0.4);
 
 // X11 Variables
 Display *display;
@@ -259,7 +260,7 @@ int main() {
         // DEFINE A DEFAULT SCENE IF NO USER INPUT WAS PROVIDED
         // Define a sphere
         double sphere1_radius = 0.2;
-        Vector sphere1_position = origin.plus(j_vec.scale(0.2));
+        Vector sphere1_position = origin.plus(j_vec.scale(0.3)).plus(i_vec.scale(0.2)).plus(k_vec.scale(-0.1));
         Colour sphere1_colour = reflective_green;
         Sphere sphere1(sphere1_position, sphere1_radius, sphere1_colour);
         
@@ -270,11 +271,10 @@ int main() {
         
         double sphere3_radius = 0.2;
         Vector sphere3_position = origin.plus(j_vec.scale(-0.5)).plus(k_vec);
-        Sphere sphere3(sphere3_position, sphere3_radius, reflective_white);
+        Sphere sphere3(sphere3_position, sphere3_radius, matte_white);
         
         // Define a plane
         // Default = x/y plane when z=-1
-        //Plane plane(Vector(0,0,-1), Vector(1,1,0), Vector(0,1,-0.1), reflective_red, 6.5);
         Plane plane(Vector(0,0,-1), Vector(1,1,0), Vector(0,1,-0.1), reflective_red, 2.2);
         
         // Keep track of all objects
@@ -344,16 +344,23 @@ int main() {
                         // Ambient light
                         Colour resulting_colour = closest->colour.applyScalar(AMBIENCE);
                         
+                        // Calculate required vectors
+                        // Calculate the colour at the point
+                        // Vector "s" - the vector to the light source
+                        Vector s = light.position.minus(intersection_point).normalize();
+                        // Vector "v" - the vector back to the center of projection
+                        Vector v = ray_direction.scale(-1).normalize();
+                        // Vector "n" - the object's normal
+                        Vector n = closest->getNormalAtPoint(intersection_point).normalize();
+                        // Vector "r" (direction of specular reflection) = v + (ray_direction + n*(n.v))*2
+                        Vector r = v.plus(ray_direction.plus(n.scale(n.dot(v))).scale(2)).normalize();
+                    
                         if (!shadow){
-                            // Calculate the colour at the point
-                            // Vector "s" - the vector to the light source
-                            Vector s = light.position.minus(intersection_point).normalize();
-                            // Vector "v" - the vector back to the center of projection
-                            Vector v = ray_direction.scale(-1).normalize();
-                            // Vector "n" - the object's normal
-                            Vector n = closest->getNormalAtPoint(intersection_point).normalize();
-                            // Vector "r" (direction of specular reflection) = v + (ray_direction + n*(n.v))*2
-                            Vector r = v.plus(ray_direction.plus(n.scale(n.dot(v))).scale(2)).normalize();
+                            // Diffusive
+                            double diffusive_factor = s.dot(n);
+                            if (diffusive_factor > 0) {
+                                resulting_colour = resulting_colour.plus(light.colour.applyScalar(diffusive_factor*closest->colour.reflectiveness)).correct();
+                            }
                             
                             // Specular
                             double specular_factor = r.dot(s);
@@ -361,22 +368,16 @@ int main() {
                                 specular_factor = pow(specular_factor, SPECULAR_FACTOR);
                                 resulting_colour = resulting_colour.plus(light.colour.applyScalar(specular_factor*closest->colour.reflectiveness)).correct();
                             }
-                            // Diffusive
-                            double diffusive_factor = s.dot(n);
-                            if (diffusive_factor > 0) {
-                                resulting_colour = resulting_colour.plus(light.colour.applyScalar(diffusive_factor*closest->colour.reflectiveness)).correct();
-                            }
-                            
                             pixels[x][y].r = resulting_colour.r*255;
                             pixels[x][y].g = resulting_colour.g*255;
                             pixels[x][y].b = resulting_colour.b*255;
                         }
                         else{
-                            // Set the shadow colour to half the original colour
-                            pixels[x][y].r = resulting_colour.r*255/2;
-                            pixels[x][y].g = resulting_colour.g*255/2;
-                            pixels[x][y].b = resulting_colour.b*255/2;
+                            pixels[x][y].r = resulting_colour.r*255/SHADOW_FACTOR;
+                            pixels[x][y].g = resulting_colour.g*255/SHADOW_FACTOR;
+                            pixels[x][y].b = resulting_colour.b*255/SHADOW_FACTOR;
                         }
+                        
                     }
                     
                     // Draw the pixel
