@@ -31,8 +31,6 @@
 		23763B2F1851AC53003938F7 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 		23763B311851B726003938F7 /* RGB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGB.h; sourceTree = "<group>"; };
 		23763B331851C33A003938F7 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
-		23763B351851C516003938F7 /* matrix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
-		23763B361851C516003938F7 /* nr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nr.h; sourceTree = "<group>"; };
 		23763B371851C6EB003938F7 /* Ray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ray.h; sourceTree = "<group>"; };
 		23763B381851C87D003938F7 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		23763B391851DDA7003938F7 /* Light.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
@@ -71,8 +69,6 @@
 		23763B2418519F74003938F7 /* CS3388_Assignment4-raytracer */ = {
 			isa = PBXGroup;
 			children = (
-				23763B351851C516003938F7 /* matrix.h */,
-				23763B361851C516003938F7 /* nr.h */,
 				23763B2518519F74003938F7 /* main.cpp */,
 				23763B2718519F74003938F7 /* CS3388_Assignment4_raytracer.1 */,
 				23763B2F1851AC53003938F7 /* Object.h */,
